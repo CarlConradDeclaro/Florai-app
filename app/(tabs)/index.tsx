@@ -1,74 +1,206 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Link } from "expo-router";
+import { View, Text, Image, ScrollView } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView>
+      <View className="p-3 flex flex-row justify-between pr-6">
+        <View>
+          <Text className="text-2xl font-bold">Good day!</Text>
+        </View>
+        <View>
+          <Image
+            source={require("../../assets/icons/search.png")}
+            className="w-[25px] h-[25px]"
+          />
+        </View>
+      </View>
+      <View className="flex flex-row justify-between p-3">
+        <View>
+          <Text className="font-medium">Categories</Text>
+        </View>
+        <View>
+          <Text className="underline text-green-500">View All</Text>
+        </View>
+      </View>
+      {/* Categories */}
+      <View className="flex flex-row flex-wrap gap-5">
+        <Link
+          href={{
+            pathname: "/Categories/[category]",
+            params: { category: "Garden" },
+          }}
+        >
+          <View className="flex flex-row  p-3 gap-2 bg-green-40">
+            <View className="w-[5px] bg-green-500"></View>
+            <View>
+              <Image
+                source={require("../../assets/images/garden.png")}
+                className="w-[80px] h-[80px]"
+              />
+            </View>
+            <View className="flex flex-col justify-center">
+              <Text>2 Plants</Text>
+              <Text className="text-2xl font-bold">Garden</Text>
+            </View>
+          </View>
+        </Link>
+
+        <Link
+          href={{
+            pathname: "/Categories/[category]",
+            params: { category: "Popular" },
+          }}
+        >
+          <View className="flex  flex-row  p-3 gap-2 bg-green-40">
+            <View className="w-[5px] bg-blue-500"></View>
+            <View>
+              <Image
+                source={require("../../assets/images/popular.png")}
+                className="w-[80px] h-[80px]"
+              />
+            </View>
+            <View className="flex flex-col justify-center">
+              <Text>2 Plants</Text>
+              <Text className="text-2xl font-bold">Popular</Text>
+            </View>
+          </View>
+        </Link>
+
+        <Link
+          href={{
+            pathname: "/Categories/[category]",
+            params: { category: "Indoor" },
+          }}
+        >
+          <View className="flex flex-row  p-3 gap-2 bg-green-40">
+            <View className="w-[5px] bg-yellow-500"></View>
+            <View>
+              <Image
+                source={require("../../assets/images/indoor.png")}
+                className="w-[80px] h-[80px]"
+              />
+            </View>
+            <View className="flex flex-col justify-center">
+              <Text>2 Plants</Text>
+              <Text className="text-2xl font-bold">Indoor</Text>
+            </View>
+          </View>
+        </Link>
+
+        <Link
+          href={{
+            pathname: "/Categories/[category]",
+            params: { category: "Outdoor" },
+          }}
+        >
+          <View className="flex  flex-row  p-3 gap-2 bg-green-40">
+            <View className="w-[5px] bg-purple-500"></View>
+            <View>
+              <Image
+                source={require("../../assets/images/outdoor.png")}
+                className="w-[80px] h-[80px]"
+              />
+            </View>
+            <View className="flex flex-col justify-center">
+              <Text>2 Plants</Text>
+              <Text className="text-2xl font-bold">Outdoor</Text>
+            </View>
+          </View>
+        </Link>
+      </View>
+      {/* Suggested */}
+      <View className="mt-2">
+        <View className="flex flex-row justify-between p-3">
+          <Text className="font-medium">Suggested</Text>
+          <Text className="underline text-green-500">View All</Text>
+        </View>
+        <View className="flex flex-wrap flex-row p-2 gap-2">
+          <View className="relative bg-[#F8F8F8] w-[48%] h-[200px] rounded-3xl p-4">
+            <Text className="absolute left-4 top-[100px]   text-green-600 text-sm font-medium">
+              Indoor Plant
+            </Text>
+            <View className="absolute left-4 top-[120px] ">
+              <Text className="text-black font-bold text-lg leading-5">
+                Monstera
+              </Text>
+              <Text className="text-black font-bold text-lg leading-5">
+                Deliciosa
+              </Text>
+            </View>
+            <View className="absolute right-0 top-[30px]">
+              <Image
+                source={require("../../assets/images/SuggestedIndoor.png")}
+                className="w-[130px] h-[130px]"
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+
+          <View className="relative bg-[#F8F8F8] w-[48%] h-[200px] rounded-3xl p-4">
+            <Text className="absolute left-4 top-[100px]   text-green-600 text-sm font-medium">
+              Indoor Plant
+            </Text>
+            <View className="absolute left-4 top-[120px] ">
+              <Text className="text-black font-bold text-lg leading-5">
+                Monstera
+              </Text>
+              <Text className="text-black font-bold text-lg leading-5">
+                Deliciosa
+              </Text>
+            </View>
+            <View className="absolute right-0 top-[30px]">
+              <Image
+                source={require("../../assets/images/suggestedPlant.png")}
+                className="w-[130px] h-[130px]"
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+
+          <View className="relative bg-[#F8F8F8] w-[48%] h-[200px] rounded-3xl p-4">
+            <Text className="absolute left-4 top-[100px]   text-green-600 text-sm font-medium">
+              Indoor Plant
+            </Text>
+            <View className="absolute left-4 top-[120px] ">
+              <Text className="text-black font-bold text-lg leading-5">
+                Monstera
+              </Text>
+              <Text className="text-black font-bold text-lg leading-5">
+                Deliciosa
+              </Text>
+            </View>
+            <View className="absolute right-0 top-[30px]">
+              <Image
+                source={require("../../assets/images/suggestedGarden.png")}
+                className="w-[130px] h-[130px]"
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+
+          <View className="relative bg-[#F8F8F8] w-[48%] h-[200px] rounded-3xl p-4">
+            <Text className="absolute left-4 top-[100px]   text-green-600 text-sm font-medium">
+              Indoor Plant
+            </Text>
+            <View className="absolute left-4 top-[120px] ">
+              <Text className="text-black font-bold text-lg leading-5">
+                Monstera
+              </Text>
+              <Text className="text-black font-bold text-lg leading-5">
+                Deliciosa
+              </Text>
+            </View>
+            <View className="absolute right-0 top-[30px]">
+              <Image
+                source={require("../../assets/images/popular.png")}
+                className="w-[130px] h-[130px]"
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
