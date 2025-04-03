@@ -43,3 +43,46 @@ export const suggestedPlants = [
     image: require("../assets/images/popular.png"),
   },
 ];
+
+export const searchCategories = [
+  {
+    id: 1,
+    name: "Indoor Plants",
+    image: require("../assets/images/IndoorPlant.png"),
+  },
+  {
+    id: 2,
+    name: "Outdoor Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+  {
+    id: 3,
+    name: "Medicine Plants",
+    image: require("../assets/images/medicinePlants.png"),
+  },
+  {
+    id: 4,
+    name: "Water Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+  {
+    id: 5,
+    name: "Water Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+  {
+    id: 6,
+    name: "Water Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+  {
+    id: 7,
+    name: "Water Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+  {
+    id: 8,
+    name: "Water Plants",
+    image: require("../assets/images/outdoorPlants.png"),
+  },
+];

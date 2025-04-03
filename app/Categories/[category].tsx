@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { PlantCard } from "../components/PlantCard";
+import { PlantCard } from "../../components/PlantCard";
 
 export default function Category() {
   const { category } = useLocalSearchParams();
@@ -44,14 +44,14 @@ export default function Category() {
         {/* Left Column */}
         <View className="flex flex-col gap-2">
           {leftColumn.map((item: any, index: number) => (
-            <PlantCard key={index} w="200" h="200" />
+            <PlantCard key={index} className="w-[200px] h-[200px]" bg="white" />
           ))}
         </View>
 
         {/* Right Column */}
         <View className="flex flex-col gap-2">
           {rightColumn.map((item: any, index: number) => (
-            <PlantCard key={index} w="200" h="300" />
+            <PlantCard key={index} className="w-[200px] h-[300px]" bg="white" />
           ))}
         </View>
       </View>

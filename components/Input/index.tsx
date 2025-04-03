@@ -1,7 +1,5 @@
 import React from "react";
 import { TextInput, View, Text } from "react-native";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 
 interface InputProps {
   label?: string;
@@ -24,8 +22,8 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <View
-      className="flex flex-row items-center bg-[#EBF6ED] rounded-xl"
-      style={{ elevation: 2, overflow: "hidden" }}
+      className="flex flex-row items-center  "
+      style={{ elevation: 4, overflow: "hidden" }}
     >
       {children}
       <TextInput
@@ -35,6 +33,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        autoFocus={true}
       />
     </View>
   );
