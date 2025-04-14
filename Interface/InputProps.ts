@@ -1,4 +1,4 @@
-interface InputProps {
+export interface InputProps {
   label?: string;
   placeholder: string;
   value: string;
@@ -7,6 +7,6 @@ interface InputProps {
   className?: string;
 }
 
-interface ButtonProps {
+export interface ButtonProps {
   name: string;
 }

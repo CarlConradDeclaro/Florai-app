@@ -5,7 +5,7 @@ export const categories = [
     image: require("../assets/images/garden.png"),
   },
   {
-    category: "Popular",
+    category: "Garden",
     color: "blue",
     image: require("../assets/images/popular.png"),
   },
@@ -47,42 +47,42 @@ export const suggestedPlants = [
 export const searchCategories = [
   {
     id: 1,
-    name: "Indoor Plants",
-    image: require("../assets/images/IndoorPlant.png"),
+    name: "Indoor",
+    image: require("../assets/images/indoor.jpg"),
   },
   {
     id: 2,
-    name: "Outdoor Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "Outdoor",
+    image: require("../assets/images/outdoor.jpg"),
   },
   {
     id: 3,
-    name: "Medicine Plants",
-    image: require("../assets/images/medicinePlants.png"),
+    name: "Medicinal",
+    image: require("../assets/images/medicinal.jpg"),
   },
   {
     id: 4,
-    name: "Water Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "WaterPlants",
+    image: require("../assets/images/waterplants.jpg"),
   },
   {
     id: 5,
-    name: "Water Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "Poisonous",
+    image: require("../assets/images/poisonous.jpg"),
   },
   {
     id: 6,
-    name: "Water Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "AirPurifyingPlant",
+    image: require("../assets/images/airpurifyingplants.jpg"),
   },
   {
     id: 7,
-    name: "Water Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "EdiblePlant",
+    image: require("../assets/images/ediblePlants.jpg"),
   },
   {
     id: 8,
-    name: "Water Plants",
-    image: require("../assets/images/outdoorPlants.png"),
+    name: "Garden",
+    image: require("../assets/images/gardenPlants.jpg"),
   },
 ];

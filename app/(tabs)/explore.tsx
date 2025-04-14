@@ -11,7 +11,7 @@ export default function TabTwoScreen() {
     <ScrollView className="flex-1 w-full bg-white">
       <View className="flex-row gap-2 items-center pl-5 pr-5 pt-5">
         <View className="flex-row justify-center items-center w-full">
-          <Link href="../search">
+          <Link href="../Search">
             <View className="flex-row items-center  gap-2 w-[95%] h-[45px] rounded-2xl  bg-[#EBF6ED] p-2">
               <Image
                 source={require("../../assets/images/search.png")}
@@ -27,7 +27,7 @@ export default function TabTwoScreen() {
         </View>
       </View>
 
-      <View className="flex-row gap-2 ml-auto mt-2 p-5 items-center">
+      <View className="flex-row gap-2 ml-auto mt-2 pr-3 pb-3 items-center">
         <TouchableOpacity onPress={() => setDisplayOrientation("grid")}>
           <Image
             source={require("../../assets/images/grid.png")}
@@ -56,38 +56,42 @@ export default function TabTwoScreen() {
       </View>
 
       <View
-        className={`${
-          displayOrientation == "grid"
-            ? "flex-row flex-wrap  justify-center"
-            : "flex-col"
-        }  items-center relative gap-3 mb-5`}
+        className={`flex ${displayOrientation == "grid" ? "flex-row flex-wrap" : ""} p-1 gap-1 justify-center`}
       >
         {searchCategories.map(({ id, name, image }) => (
-          <Link
+          <View
+            className={`${displayOrientation == "grid" ? "w-[48%]" : "w-[100%] "}`}
             key={id}
-            href={{
-              pathname: "/Categories/[category]",
-              params: { category: name },
-            }}
           >
-            <View key={id}>
-              <Image
-                source={image}
-                className={`${
-                  displayOrientation == "grid" ? "w-[22vh] rounded-lg" : ""
-                }`}
-              />
-              <Text
-                className={`absolute  ${
-                  displayOrientation == "grid"
-                    ? "top-20 left-8 text-[18px]"
-                    : "top-1/2 left-1/2 -translate-x-1/2 -traslate-y-1/2 text-[25px]"
-                }  font-bold color-white  `}
-              >
-                {name}
-              </Text>
-            </View>
-          </Link>
+            <Link
+              href={{
+                pathname: "/Categories/[category]",
+                params: { category: name },
+              }}
+            >
+              <View key={id} className="w-full p-1">
+                <Image
+                  style={{
+                    display: "flex",
+                    height: 180,
+                    width: "100%",
+                    borderRadius: 10,
+                  }}
+                  source={image}
+                  resizeMode="cover"
+                />
+                <Text
+                  className={`absolute  ${
+                    displayOrientation == "grid"
+                      ? "top-1/2 left-14 text-[18px]"
+                      : "top-1/2 left-1/2 -translate-x-1/2 -traslate-y-1/2 text-[25px]"
+                  }  font-bold color-white  `}
+                >
+                  {name}
+                </Text>
+              </View>
+            </Link>
+          </View>
         ))}
       </View>
     </ScrollView>

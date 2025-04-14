@@ -1,26 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { PlantCard } from "../../components/PlantCard";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Plant } from "@/types/Plant";
 
 export default function Category() {
   const { category } = useLocalSearchParams();
 
-  // Sample dynamic plant data
-  const plantCards = [
-    { string: 1 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-    { string: 2 },
-  ];
+  const getPlantByCategory = useQuery(api.plants.getPlantByCategory, {
+    category: category.toString(),
+  });
+
+  const getSuggestedPlant = useQuery(api.plants.getSuggestedPlant, {
+    category: "Garden",
+    sunlight: "Full Sun",
+    humidityPreference: "Low",
+  });
+  useEffect(() => {
+    console.log("Suggested:", getSuggestedPlant);
+  }, [getSuggestedPlant]);
 
   let leftColumn: any = [];
   let rightColumn: any = [];
@@ -28,7 +28,7 @@ export default function Category() {
   let rightHeight = 0;
   let position = 1;
 
-  plantCards.forEach((item) => {
+  getPlantByCategory?.forEach((item) => {
     if (leftHeight <= rightHeight) {
       leftColumn.push(item);
       leftHeight += position++;
@@ -39,19 +39,29 @@ export default function Category() {
   });
 
   return (
-    <ScrollView className="w-full mt-5">
-      <View className="flex flex-row justify-center gap-2">
+    <ScrollView className="w-full mt-2 ">
+      <View className="flex flex-row justify-between px-2 ">
         {/* Left Column */}
-        <View className="flex flex-col gap-2">
-          {leftColumn.map((item: any, index: number) => (
-            <PlantCard key={index} className="w-[200px] h-[200px]" bg="white" />
+        <View className="flex-1 pr-1">
+          {leftColumn.map((item: Plant, index: number) => (
+            <PlantCard
+              key={index}
+              className="w-[100%] h-[200px]"
+              bg="white"
+              plant={item}
+            />
           ))}
         </View>
 
         {/* Right Column */}
-        <View className="flex flex-col gap-2">
-          {rightColumn.map((item: any, index: number) => (
-            <PlantCard key={index} className="w-[200px] h-[300px]" bg="white" />
+        <View className="flex-1 pl-1">
+          {rightColumn.map((item: Plant, index: number) => (
+            <PlantCard
+              key={index}
+              className="w-[100%] h-[300px]"
+              bg="white"
+              plant={item}
+            />
           ))}
         </View>
       </View>

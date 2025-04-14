@@ -25,12 +25,6 @@ export default function Search() {
       <View className="p-5">
         <Text>Top Searches:</Text>
       </View>
-
-      <ScrollView className="p-5">
-        <PlantCard className="w-auto h-[50px] border-b-2" />
-        <PlantCard className="w-auto h-[50px] border-b-2" />
-        <PlantCard className="w-auto h-[50px] border-b-2" />
-      </ScrollView>
     </ScrollView>
   );
 }
