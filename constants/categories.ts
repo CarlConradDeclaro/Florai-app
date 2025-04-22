@@ -1,21 +1,21 @@
 export const categories = [
   {
-    category: "Garden",
+    category: "Indoor",
     color: "green",
     image: require("../assets/images/garden.png"),
   },
   {
-    category: "Garden",
+    category: "Outdoor",
     color: "blue",
     image: require("../assets/images/popular.png"),
   },
   {
-    category: "Indoor",
+    category: "WaterPlants",
     color: "yellow",
     image: require("../assets/images/indoor.png"),
   },
   {
-    category: "Outdoor",
+    category: "Garden",
     color: "purple",
     image: require("../assets/images/outdoor.png"),
   },

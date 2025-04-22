@@ -13,9 +13,12 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as api_ from "../api.js";
+import type * as http from "../http.js";
 import type * as plant_getPlantByCategory from "../plant/getPlantByCategory.js";
+import type * as plant_getPlants from "../plant/getPlants.js";
 import type * as plant_getSuggested from "../plant/getSuggested.js";
-import type * as plants from "../plants.js";
+import type * as plant_savedPlants from "../plant/savedPlants.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -26,9 +29,12 @@ import type * as plants from "../plants.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  api: typeof api_;
+  http: typeof http;
   "plant/getPlantByCategory": typeof plant_getPlantByCategory;
+  "plant/getPlants": typeof plant_getPlants;
   "plant/getSuggested": typeof plant_getSuggested;
-  plants: typeof plants;
+  "plant/savedPlants": typeof plant_savedPlants;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

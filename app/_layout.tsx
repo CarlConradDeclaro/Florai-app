@@ -7,6 +7,7 @@ import "../global.css";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import ConvexClientProvider from "./ConvexClientProvider";
+import { AuthProvider } from "@/context/AuthContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,17 +29,25 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ConvexClientProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="Categories" />
-          <Stack.Screen name="Search" />
-          <Stack.Screen name="ScannedPlants" />
-          <Stack.Screen name="Favorites" />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ConvexClientProvider>
-      {/* <StatusBar style="auto" /> */}
+      <AuthProvider>
+        <ConvexClientProvider>
+          <Stack
+            screenOptions={{ headerShown: false }}
+            initialRouteName="index"
+          >
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="Categories" />
+            <Stack.Screen name="Search" />
+            <Stack.Screen name="ScannedPlants" />
+            <Stack.Screen name="Favorites" />
+            <Stack.Screen name="plant-detail" />
+            <Stack.Screen name="chat-ai" />
+
+            <Stack.Screen name="edit-profile" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ConvexClientProvider>
+      </AuthProvider>
     </SafeAreaView>
   );
 }

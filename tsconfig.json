@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "esModuleInterop": true,
     "strict": true,
     "paths": {
       "@/*": ["./*"]
@@ -12,6 +13,8 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts",
-    "app/(tabs)/scan.tsxx"
+    "app/(tabs)/scan.tsxx",
+    "convex/testPlant.ts",
+    "convex/testPlant.ts"
   ]
 }

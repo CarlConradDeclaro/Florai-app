@@ -2,7 +2,6 @@
 
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ReactNode } from "react";
-import Constants from "expo-constants";
 
 // Get the URL from Expo's manifest extra
 const convexUrl = "https://effervescent-tapir-13.convex.cloud";

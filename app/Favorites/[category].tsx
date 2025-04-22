@@ -4,10 +4,14 @@ import { useLocalSearchParams } from "expo-router";
 import { PlantCard } from "../../components/PlantCard";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import useAuth from "@/hooks/useAuth";
 
 export default function Category() {
   const { category } = useLocalSearchParams();
-  const getPlantByCategory = useQuery(api.plants.getPlantByCategory, {
+
+  const { user } = useAuth();
+  const plants = useQuery(api.plant.savedPlants.getSavedPlantsByCategory, {
+    userId: String(user.user_id),
     category: category.toString(),
   });
 
@@ -17,7 +21,7 @@ export default function Category() {
   let rightHeight = 0;
   let position = 1;
 
-  getPlantByCategory?.forEach((item) => {
+  plants?.forEach((item) => {
     if (leftHeight <= rightHeight) {
       leftColumn.push(item);
       leftHeight += position++;
@@ -35,7 +39,7 @@ export default function Category() {
           {leftColumn.map((item: any, index: number) => (
             <PlantCard
               key={index}
-              className="w-[100%] h-[200px]"
+              className="w-[100%] h-[300px]"
               bg="white"
               plant={item}
             />
