@@ -16,35 +16,46 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Markdown from "react-native-markdown-display";
+import { Plant } from "@/types/Plant";
+import { Message } from "@/types/chat-types";
+import { BASEURL } from "@/utils/base-url";
 
 export default function ChatbotScreen() {
   const router = useRouter();
   const { plant } = useLocalSearchParams();
-  const scrollViewRef = useRef(null);
-
+  const scrollViewRef = useRef<ScrollView>(null);
   const [inputText, setInputText] = useState("");
-  const [conversation, setConversation] = useState([
+  const { index } = useLocalSearchParams();
+  const parsed =
+    typeof index === "string" && index !== "" ? JSON.parse(index) : index;
+  let commonName = parsed
+    ? "***" + parsed?.common_name + "***"
+    : "any specific plant you have in mind!";
+  const [conversation, setConversation] = useState<Message[]>([
     {
-      ai: "Hi PlantPal, I am your AI assistant. Feel free to ask about any specific plant you have in mind!",
+      ai:
+        "Hi PlantPal, I am your AI assistant. Feel free to ask about " +
+        commonName,
     },
   ]);
   const [status, setStatus] = useState("idle");
   const [isStreaming, setIsStreaming] = useState(false);
   const [plantResults, setPlantResults] = useState([]);
 
-  useEffect(() => {
-    if (plant) {
-      const plantInfo = JSON.parse(plant);
-      const message = `Tell me about ${plantInfo.common_name}`;
-      setInputText(message);
-      handleSendMessage(message);
-    }
-  }, [plant]);
+  // useEffect(() => {
+  //   if (plant) {
+  //     const plantInfo = typeof plant == "string" ? JSON.parse(plant) : null;
+  //     const message = `Tell me about ${plantInfo.common_name}`;
+
+  //     setInputText(message);
+  //     handleSendMessage(message);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (scrollViewRef.current) {
       setTimeout(() => {
-        scrollViewRef.current.scrollToEnd({ animated: true });
+        scrollViewRef.current?.scrollToEnd({ animated: true });
       }, 100);
     }
   }, [conversation]);
@@ -53,7 +64,7 @@ export default function ChatbotScreen() {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       if (scrollViewRef.current) {
         setTimeout(() => {
-          scrollViewRef.current.scrollToEnd({ animated: true });
+          scrollViewRef.current?.scrollToEnd({ animated: true });
         }, 100);
       }
     });
@@ -62,12 +73,15 @@ export default function ChatbotScreen() {
     };
   }, []);
 
-  const handleSendMessage = async (text) => {
+  const handleSendMessage = async (text: string, conversation: any) => {
     if (!text.trim()) return;
 
+    // Add user message to the conversation
     const userMessage = { user: text };
     setConversation((prev) => [...prev, userMessage]);
     setInputText("");
+
+    // Add "Thinking..." message for AI
     setConversation((prev) => [
       ...prev,
       { ai: "Thinking...", isLoading: true },
@@ -77,9 +91,16 @@ export default function ChatbotScreen() {
     setPlantResults([]);
 
     try {
-      const res = await fetch(
-        `http://10.0.2.2:8000/ai-deepseek2/?q=${encodeURIComponent(text)}`
-      );
+      const res = await fetch(`${BASEURL}/ai-deepseek2_json/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          conversation: conversation, // Pass conversation as part of the payload
+          new_message: text, // Pass the current message
+        }),
+      });
 
       if (!res.ok) {
         updateAIResponse("Sorry, I couldn't process your request right now.");
@@ -87,33 +108,31 @@ export default function ChatbotScreen() {
         return;
       }
 
-      const responseText = await res.text();
-      let introText = "",
-        jsonData = [],
-        summaryText = "";
+      const json = await res.json();
+      const {
+        introduction = "",
+        relevant_plants = [],
+        summary = "",
+        full_response = "",
+      } = json;
 
-      const jsonStartIdx = responseText.indexOf("```json");
-      if (jsonStartIdx !== -1) {
-        const jsonEndIdx = responseText.indexOf("```", jsonStartIdx + 7);
-        if (jsonEndIdx !== -1) {
-          introText = responseText.slice(0, jsonStartIdx);
-          try {
-            const jsonBlock = responseText.slice(jsonStartIdx + 7, jsonEndIdx);
-            jsonData = JSON.parse(jsonBlock.trim());
-            setPlantResults(jsonData);
-          } catch (err) {
-            console.error("Error parsing JSON:", err);
-          }
-          summaryText = responseText.slice(jsonEndIdx + 3);
-        }
+      // Update AI response based on the data received
+      if (
+        !introduction &&
+        !relevant_plants.length &&
+        !summary &&
+        full_response
+      ) {
+        updateAIResponse(full_response);
       } else {
-        introText = responseText;
+        setPlantResults(relevant_plants);
+        updateAIResponse(
+          introduction.trim().replace(/^\*+$/gm, ""),
+          relevant_plants,
+          summary.trim().replace(/^\*+$/gm, "")
+        );
       }
 
-      const fullResponse =
-        introText + (jsonData.length > 0 ? "" : "") + summaryText;
-
-      updateAIResponse(fullResponse, jsonData);
       setStatus("done ✅");
     } catch (error) {
       console.error("Error:", error);
@@ -124,15 +143,100 @@ export default function ChatbotScreen() {
     }
   };
 
-  const updateAIResponse = (text, plants = []) => {
-    setConversation((prev) => {
-      const updated = [...prev];
-      updated[updated.length - 1] = {
-        ai: text,
-        isLoading: false,
-        plants: plants.length > 0 ? plants : undefined,
-      };
-      return updated;
+  const updateAIResponse = (
+    introText: string,
+    plants = [],
+    summaryText = ""
+  ) => {
+    // If only one argument (full response) is passed, show it as is
+    if (plants.length === 0 && !summaryText) {
+      setConversation((prev) => {
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        if (!last) return prev;
+        updated[updated.length - 1] = {
+          ...last,
+          ai: introText,
+          isLoading: false,
+        };
+        return updated;
+      });
+      return;
+    }
+
+    let index = 0;
+    const animationSpeed = 12;
+
+    const animateIntro = () => {
+      return new Promise((resolve) => {
+        const interval = setInterval(() => {
+          setConversation((prev) => {
+            const updated = [...prev];
+            const last = updated[updated.length - 1];
+            if (!last || !last.ai) return prev;
+
+            const newText = introText.slice(0, index);
+            updated[updated.length - 1] = {
+              ...last,
+              ai: newText,
+              isLoading: false,
+            };
+            return updated;
+          });
+
+          index++;
+          if (index > introText.length) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, animationSpeed);
+      });
+    };
+
+    const showPlants = () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          setConversation((prev) => {
+            const updated = [...prev];
+            const last = updated[updated.length - 1];
+            if (!last) return prev;
+
+            updated[updated.length - 1] = {
+              ...last,
+              plants,
+            };
+            return updated;
+          });
+          resolve();
+        }, 300);
+      });
+    };
+
+    const showSummary = () => {
+      setTimeout(() => {
+        setConversation((prev) => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (!last) return prev;
+
+          updated[updated.length - 1] = {
+            ...last,
+            summary: summaryText,
+          };
+          return updated;
+        });
+      }, 300);
+    };
+
+    animateIntro().then(() => showPlants().then(() => showSummary()));
+  };
+
+  const handleViewPlantDetail = (plant: Plant) => {
+    router.push({
+      pathname: "/plant-detail/[plant]",
+      params: {
+        plant: JSON.stringify(plant),
+      },
     });
   };
 
@@ -145,20 +249,6 @@ export default function ChatbotScreen() {
           className="flex-1"
         >
           <View className="flex-1 flex-col">
-            {/* Header */}
-            <View className="flex-row items-center p-4 bg-white border-b border-gray-200">
-              <TouchableOpacity onPress={() => router.back()} className="mr-3">
-                <Ionicons name="chevron-back" size={24} color="#4CAF50" />
-              </TouchableOpacity>
-              <Text className="text-lg font-semibold flex-1">
-                PlantPal Assistant
-              </Text>
-              {status !== "idle" && status !== "done ✅" && (
-                <ActivityIndicator size="small" color="#4CAF50" />
-              )}
-            </View>
-
-            {/* Messages */}
             <ScrollView
               ref={scrollViewRef}
               className="flex-1 p-4"
@@ -194,9 +284,10 @@ export default function ChatbotScreen() {
                                   Suggested Plants:
                                 </Text>
                                 {msg.plants.map((plant, idx) => (
-                                  <View
+                                  <TouchableOpacity
                                     key={idx}
                                     className="bg-gray-50 rounded-lg p-3 mb-2 border border-gray-200"
+                                    onPress={() => handleViewPlantDetail(plant)}
                                   >
                                     {plant.url && (
                                       <Image
@@ -215,8 +306,17 @@ export default function ChatbotScreen() {
                                     <Text className="text-gray-600 text-sm mt-1">
                                       {plant.description}
                                     </Text>
-                                  </View>
+                                  </TouchableOpacity>
                                 ))}
+                              </View>
+                            )}
+
+                            {msg.summary && (
+                              <View className="mt-4 border-t pt-3 border-gray-200">
+                                <Text className="font-semibold text-green-800 mb-2">
+                                  Summary
+                                </Text>
+                                <Markdown>{msg.summary}</Markdown>
                               </View>
                             )}
                           </>
@@ -228,7 +328,6 @@ export default function ChatbotScreen() {
               ))}
             </ScrollView>
 
-            {/* Input */}
             <View className="flex-row items-center p-2 bg-white border-t border-gray-200">
               <TouchableOpacity className="p-2">
                 <Ionicons name="camera" size={24} color="#4CAF50" />
@@ -241,7 +340,7 @@ export default function ChatbotScreen() {
                 multiline
               />
               <TouchableOpacity
-                onPress={() => handleSendMessage(inputText)}
+                onPress={() => handleSendMessage(inputText, conversation)}
                 disabled={!inputText.trim() || isStreaming}
                 className={`p-2 rounded-full ${!inputText.trim() || isStreaming ? "opacity-50" : ""}`}
               >

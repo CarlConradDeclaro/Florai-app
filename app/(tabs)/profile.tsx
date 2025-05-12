@@ -17,13 +17,13 @@ export default function Profile() {
   const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
   // Mock user data - replace with actual user data from your auth context
-  const userData = user || {
-    name: "Alex Johnson",
-    email: "alex.johnson@example.com",
+  const userData = {
+    name: "Carl Conrad",
+    email: "conrad@xcon.com",
     phone: "+1 (555) 123-4567",
     location: "San Francisco, CA",
-    bio: "UX Designer & Mobile Developer | Photography enthusiast and coffee lover",
-    joinDate: "April 2023",
+    bio: "Mobile Developer | coffee lover",
+    joinDate: "April 2025",
   };
 
   const menuItems = [
@@ -66,7 +66,7 @@ export default function Profile() {
   return (
     <ScrollView className="flex-1 bg-white">
       {/* Header with gradient background */}
-      <View className="bg-green-500 pt-12 pb-8 px-5 rounded-b-3xl shadow-md">
+      <View className="bg-green-500 pt-12 pb-8 px-5 rounded-b-3xl shadow-md h-[200px]">
         <View className="flex-row items-center">
           <View className="mr-4">
             <Image
@@ -95,7 +95,7 @@ export default function Profile() {
         </View>
 
         {/* Stats bar */}
-        <View className="flex-row justify-between mt-6 bg-white/20 rounded-xl p-3">
+        {/* <View className="flex-row justify-between mt-6 bg-white/20 rounded-xl p-3">
           <View className="items-center flex-1">
             <Text className="text-white font-bold text-lg">245</Text>
             <Text className="text-green-100 text-xs">Posts</Text>
@@ -110,12 +110,12 @@ export default function Profile() {
             <Text className="text-white font-bold text-lg">342</Text>
             <Text className="text-green-100 text-xs">Following</Text>
           </View>
-        </View>
+        </View> */}
       </View>
 
       {/* Bio section */}
       <View className="bg-white px-5 py-4 mb-2">
-        <Text className="text-gray-800 mb-2">{userData.bio}</Text>
+        {/* <Text className="text-gray-800 mb-2">{userData.bio}</Text> */}
         <View className="flex-row items-center">
           <Ionicons name="calendar-outline" size={14} color="#9E9E9E" />
           <Text className="text-gray-500 text-xs ml-1">

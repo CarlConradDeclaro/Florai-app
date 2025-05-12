@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import { Plant } from "@/types/Plant";
 
 export default function HomeScreen() {
   const getSuggestedPlant = useQuery(
@@ -25,10 +26,10 @@ export default function HomeScreen() {
       sunlight: "Full Sun",
       humidityPreference: "Moderate",
     }
-  );
+  ) as Plant[] | undefined;
 
   const { user } = useAuth();
-  const username = user?.name || "Plant Lover";
+  const username = user?.username || "Plant Lover";
   const firstName = username.split(" ")[0];
   const router = useRouter();
 
@@ -57,16 +58,13 @@ export default function HomeScreen() {
           <View className="flex-row justify-between items-center">
             <View>
               <Text className="text-gray-500">Good {getTimeOfDay()}!</Text>
-              <Text className="text-3xl font-bold text-gray-800 mt-1">
-                {firstName}
-              </Text>
             </View>
             <View className="flex-row gap-4">
               <Link
                 className="w-10 h-10 flex-col items-center "
                 href={{
                   pathname: "/chat-ai/[index]",
-                  params: { index: "yeah" },
+                  params: { index: "" },
                 }}
               >
                 <View className="flex-col items-center">
@@ -93,49 +91,33 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* Featured Banner */}
-          <TouchableOpacity className="mt-6 overflow-hidden rounded-2xl">
-            <ImageBackground
-              source={{
-                uri: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3",
-              }}
-              className="h-40 w-full justify-end"
-              resizeMode="cover"
-            >
-              <LinearGradient
-                colors={["transparent", "rgba(0,0,0,0.7)"]}
-                className="absolute left-0 right-0 bottom-0 h-24"
-              />
-              <View className="p-4">
-                <View className="bg-green-500 self-start px-3 py-1 rounded-full mb-2">
-                  <Text className="text-white text-xs font-medium">
-                    Tips & Tricks
-                  </Text>
-                </View>
-                <Text className="text-white text-xl font-bold">
-                  Spring Gardening Essentials
-                </Text>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
         </View>
 
         {/* Categories Section */}
-        <View className="px-5 mb-6">
-          <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-gray-800">Categories</Text>
-            <TouchableOpacity>
-              <Text className="text-green-500 font-medium">View All</Text>
-            </TouchableOpacity>
-          </View>
+        <View className="flex-row flex-wrap justify-between px-4">
+          {categories.slice(0, 4).map((item, index) => {
+            const plantCount =
+              index === 0
+                ? "10 Plants"
+                : index === 1
+                  ? "10 Plants"
+                  : index === 2
+                    ? "10 Plants"
+                    : "10 Plants";
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 20 }}
-          >
-            {categories.map((item, index) => (
+            const borderColor =
+              index === 0 || index === 2 ? "#E91E63" : "#4CAF50";
+
+            const categoryName =
+              index === 0
+                ? "Garden"
+                : index === 1
+                  ? "Popular"
+                  : index === 2
+                    ? "Indoor"
+                    : "Outdoor";
+
+            return (
               <Link
                 key={index}
                 href={{
@@ -144,34 +126,34 @@ export default function HomeScreen() {
                 }}
                 asChild
               >
-                <TouchableOpacity>
+                <TouchableOpacity className="w-[48%] mb-4">
                   <View
-                    className="mr-4 p-3 rounded-2xl flex-row items-center"
+                    className="rounded-xl overflow-hidden bg-white"
                     style={{
-                      backgroundColor: `${item.color}15`, // Using color with 15% opacity
                       borderLeftWidth: 4,
-                      borderLeftColor: item.color,
-                      width: 200,
+                      borderLeftColor: borderColor,
                     }}
                   >
-                    <View className="bg-white rounded-xl p-2 mr-3 shadow-sm">
+                    <View className="flex-row items-center p-3">
                       <Image
                         source={item.image}
-                        className="w-12 h-12"
+                        className="w-12 h-12 mr-3"
                         resizeMode="contain"
                       />
-                    </View>
-                    <View>
-                      <Text className="text-lg font-bold text-gray-800">
-                        {item.category}
-                      </Text>
-                      <Text className="text-sm text-gray-500">10 Plants</Text>
+                      <View>
+                        <Text className="text-xs text-gray-500">
+                          {plantCount}
+                        </Text>
+                        <Text className="text-base font-semibold text-gray-800 mt-1">
+                          {categoryName}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </TouchableOpacity>
               </Link>
-            ))}
-          </ScrollView>
+            );
+          })}
         </View>
 
         {/* Suggested Plants Section */}

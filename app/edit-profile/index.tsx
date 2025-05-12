@@ -16,7 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 export default function EditProfile() {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   // Initial form data based on user

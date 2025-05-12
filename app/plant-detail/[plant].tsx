@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import {
   View,
   Text,
@@ -194,13 +194,18 @@ export default function PlantDetail() {
           zIndex: 10,
         }}
       >
-        <View className="    ">
+        <Link
+          href={{
+            pathname: "/chat-ai/[index]",
+            params: { index: plant.toString() },
+          }}
+        >
           <Image
             source={require("@/assets/images/ai-logo.png")}
             className="w-[50px] h-[50px] rounded-full"
             resizeMode="cover"
           />
-        </View>
+        </Link>
       </TouchableOpacity>
     </SafeAreaView>
   );

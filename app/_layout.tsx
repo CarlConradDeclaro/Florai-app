@@ -6,7 +6,7 @@ import "react-native-reanimated";
 import "../global.css";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import ConvexClientProvider from "./ConvexClientProvider";
+import ConvexClientProvider from "../context/ConvexClientProvider";
 import { AuthProvider } from "@/context/AuthContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.

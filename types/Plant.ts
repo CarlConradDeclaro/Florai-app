@@ -20,3 +20,7 @@ export type UserPreferences = {
   humidityPreference?: string;
   wateringNeeds?: string;
 };
+
+export type RegisterError = {
+  [key: string]: string[]; // example: { username: ["This field is required"] }
+};

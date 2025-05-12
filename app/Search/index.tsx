@@ -40,7 +40,7 @@ export default function Search() {
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
-  const handleSearch = async (q) => {
+  const handleSearch = async (q: string) => {
     setIsLoading(true);
     const data = await searchPlants(q);
     if (data) {
@@ -53,7 +53,7 @@ export default function Search() {
     setIsLoading(false);
   };
 
-  const handleCategoryPress = (category) => {
+  const handleCategoryPress = (category: string) => {
     setQuery(category);
   };
 

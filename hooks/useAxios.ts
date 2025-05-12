@@ -1,9 +1,10 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { refreshAccessToken } from "@/utils/refreshToken";
-//"http://192.168.0.246:8000/",
+import { BASEURL } from "@/utils/base-url";
+
 const api = axios.create({
-  baseURL: "http://10.0.2.2:8000/",
+  baseURL: BASEURL,
   validateStatus: () => true,
 });
 
