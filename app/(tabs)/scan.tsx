@@ -1,7 +1,7 @@
 import { View, Text, Button, Alert } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { CameraInstance, CapturedImage } from "@/Interface/camera-types";
+import { CameraInstance, CapturedImage } from "@/types/camera-types";
 import { useScanAnimation } from "@/hooks/useScanAnimation";
 import { classifyImage } from "@/services/image-service";
 import { pickImageFromGallery } from "@/utils/camera-utils";

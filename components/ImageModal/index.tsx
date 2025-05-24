@@ -1,4 +1,4 @@
-import { CapturedImage } from "@/Interface/camera-types";
+import { CapturedImage } from "@/types/camera-types";
 import React from "react";
 import { View, Text, Modal, Image, TouchableOpacity } from "react-native";
 

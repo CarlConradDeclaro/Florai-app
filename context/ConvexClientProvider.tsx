@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 
 // Get the URL from Expo's manifest extra
 const convexUrl = "https://effervescent-tapir-13.convex.cloud";
+// const convexUrl = "https://veracious-crane-617.convex.cloud/";
 
 if (!convexUrl) {
   console.error("Missing NEXT_PUBLIC_CONVEX_URL environment variable");

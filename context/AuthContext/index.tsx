@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import useAxios from "@/hooks/useAxios";
 import { useRouter } from "expo-router";
-import { AuthContextType, DecodedToken } from "@/Interface/auth";
+import { AuthContextType, DecodedToken } from "@/types/auth";
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined

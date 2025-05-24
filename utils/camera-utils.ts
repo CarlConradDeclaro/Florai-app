@@ -1,4 +1,4 @@
-import { CapturedImage } from "@/Interface/camera-types";
+import { CapturedImage } from "@/types/camera-types";
 import * as ImagePicker from "expo-image-picker";
 
 export const pickImageFromGallery = async (): Promise<CapturedImage | null> => {

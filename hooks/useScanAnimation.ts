@@ -1,4 +1,4 @@
-import { ScanAnimationHook } from "@/Interface/camera-types";
+import { ScanAnimationHook } from "@/types/camera-types";
 import { useRef, useState } from "react";
 import { Animated } from "react-native";
 
