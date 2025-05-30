@@ -20,7 +20,7 @@ export const getPlantByCategory = query({
   args: {
     category: v.string(),
     userId: v.string(), // Add userId as an argument to check if plants are saved
-  }, //
+  },
   handler: async (ctx, args) => {
     const plants = await ctx.db
       .query("plants")

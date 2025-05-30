@@ -86,4 +86,3 @@ export const searchCategories = [
     image: require("../assets/images/gardenPlants.jpg"),
   },
 ];
-//

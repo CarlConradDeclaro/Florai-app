@@ -11,4 +11,3 @@ export const helloHandler = httpAction(async (ctx, request) => {
     },
   });
 });
-//
