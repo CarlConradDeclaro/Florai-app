@@ -10,3 +10,4 @@ export default defineSchema({
     .index("by_user", ["userId"]) // Optional index for querying by user
     .index("by_user_plant", ["userId", "plantId"]),
 });
+//

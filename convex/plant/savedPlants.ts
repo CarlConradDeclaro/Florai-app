@@ -12,7 +12,7 @@ export const savePlant = mutation({
         q.eq("userId", args.userId).eq("plantId", args.plantId)
       )
       .first();
-
+    //
     if (!existing) {
       // Insert new saved plant record if it doesn't exist
       const result = await ctx.db.insert("saved", {

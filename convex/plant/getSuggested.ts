@@ -1,6 +1,6 @@
 import { query } from "../_generated/server";
 import { v } from "convex/values";
-
+//
 export const getSuggestedPlants = query({
   args: {
     category: v.optional(v.string()),
